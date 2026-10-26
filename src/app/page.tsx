@@ -25,21 +25,36 @@ export default function Home() {
     setCargando(true);
     setMensajeEstado(null);
 
-    const supabase = createClient();
-    const { nombre, email, telefono, direccion, tipo_servicio, mensaje } = formData;
-    
-    // Mapeamos los datos para que coincidan con tu tabla 'tickets' de Supabase
-    // (Unimos la dirección o síntoma/mensaje si es necesario, o guardamos limpio)
-    const mensajeCompleto = `Dirección: ${direccion || 'No especificada'} | Detalle: ${mensaje || testSintoma || 'Sin detalles'}`;
+    // 1. Limpieza de datos (trim)
+    const nombreLimpio = formData.nombre.trim();
+    const emailLimpio = formData.email.trim();
+    const telefonoLimpio = formData.telefono.trim();
+    const direccionLimpia = formData.direccion.trim();
+    const mensajeLimpio = (formData.mensaje || testSintoma || '').trim();
 
-       const { error } = await supabase.from('tickets').insert([
+    // 2. Validaciones básicas de largo
+    if (nombreLimpio.length < 2 || nombreLimpio.length > 100) {
+      setMensajeEstado('El nombre debe tener entre 2 y 100 caracteres.');
+      setCargando(false);
+      return;
+    }
+
+    if (mensajeLimpio.length < 10 || mensajeLimpio.length > 2000) {
+      setMensajeEstado('La descripción del problema debe tener entre 10 y 2000 caracteres.');
+      setCargando(false);
+      return;
+    }
+
+    const supabase = createClient();
+
+    const { error } = await supabase.from('tickets').insert([
       {
-        nombre,
-        correo: email,
-        telefono,
-        direccion,
-        tipo_servicio,
-        mensaje: mensaje || testSintoma || 'Sin detalles',
+        nombre: nombreLimpio,
+        correo: emailLimpio,
+        telefono: telefonoLimpio,
+        direccion: direccionLimpia,
+        tipo_servicio: formData.tipo_servicio,
+        mensaje: mensajeLimpio,
       },
     ]);
 
