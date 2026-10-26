@@ -8,13 +8,13 @@ export default function Home() {
   const [errorEstado, setErrorEstado] = useState<string | null>(null);
   const [cargando, setCargando] = useState(false);
 
-  async function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
-    event.preventDefault();
+  async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
+    e.preventDefault();
     setCargando(true);
     setMensajeEstado(null);
     setErrorEstado(null);
 
-    const formData = new FormData(event.currentTarget);
+    const formData = new FormData(e.currentTarget);
     const resultado = await crearTicket(formData);
 
     setCargando(false);
@@ -22,22 +22,17 @@ export default function Home() {
     if (resultado?.error) {
       setErrorEstado(resultado.error);
     } else {
-      setMensajeEstado(
-        "¡Solicitud enviada con éxito! Nos pondremos en contacto pronto.",
-      );
-      event.currentTarget.reset();
+      setMensajeEstado("¡Solicitud enviada con éxito! Nos pondremos en contacto pronto.");
+      e.currentTarget.reset();
     }
   }
 
   return (
     <main className="flex min-h-screen flex-col items-center justify-center p-8 md:p-24 bg-gray-50 dark:bg-gray-900">
       <div className="w-full max-w-xl bg-white dark:bg-gray-800 p-8 rounded-xl shadow-md border border-gray-200 dark:border-gray-700">
-        <h1 className="text-3xl font-bold mb-2 text-gray-900 dark:text-white">
-          Soporte PC
-        </h1>
+        <h1 className="text-3xl font-bold mb-2 text-gray-900 dark:text-white">Soporte PC</h1>
         <p className="text-gray-600 dark:text-gray-400 mb-6">
-          Ingresa los datos de tu equipo y el problema para solicitar asistencia
-          técnica.
+          Ingresa los datos de tu equipo y el problema para solicitar asistencia técnica.
         </p>
 
         {mensajeEstado && (
@@ -52,7 +47,7 @@ export default function Home() {
           </div>
         )}
 
-        <form onSubmit={handleSubmit} className="space-y-4">
+        <form onSubmit={handleSubmit} method="POST" className="space-y-4">
           <div>
             <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
               Nombre completo
@@ -89,12 +84,8 @@ export default function Home() {
               className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:text-white"
             >
               <option value="">Selecciona una opción</option>
-              <option value="Mantenimiento Preventivo">
-                Mantenimiento Preventivo
-              </option>
-              <option value="Reparación de Hardware">
-                Reparación de Hardware
-              </option>
+              <option value="Mantenimiento Preventivo">Mantenimiento Preventivo</option>
+              <option value="Reparación de Hardware">Reparación de Hardware</option>
               <option value="Formateo / Software">Formateo / Software</option>
               <option value="Armado de PC">Armado de PC</option>
             </select>
@@ -116,7 +107,7 @@ export default function Home() {
           <button
             type="submit"
             disabled={cargando}
-            className="w-full py-2 px-4 bg-blue-600 hover:bg-blue-700 text-white font-semibold rounded-lg transition duration-200 disabled:opacity-50"
+            className="w-full py-2 px-4 bg-blue-600 hover:bg-blue-700 text-white font-semibold rounded-lg transition duration-200 disabled:opacity-50 cursor-pointer"
           >
             {cargando ? "Enviando..." : "Enviar Solicitud"}
           </button>
