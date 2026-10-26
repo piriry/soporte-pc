@@ -85,8 +85,9 @@ Para configurar tu número de WhatsApp, edita la constante `WHATSAPP_NUMBER` al 
 
 ## Despliegue
 
-- 🌐 Sitio en vivo: [https://TU-PROYECTO.vercel.app](https://TU-PROYECTO.vercel.app)
-- 📦 Repositorio: [github.com/TU_USUARIO/soporte-pc](https://github.com/TU_USUARIO/soporte-pc)
+- 🌐 Sitio en vivo: https://soporte-pc-five.vercel.app
+- 📦 Repositorio: https://github.com/piriry/soporte-pc
+
 
 El proyecto está conectado a Vercel (plan Hobby): cada `git push` a la rama `main` publica una nueva versión automáticamente.
 
