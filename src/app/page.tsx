@@ -1,6 +1,8 @@
 'use client';
 
 import React, { useState } from 'react';
+import Header from '@/components/Header';
+import Servicios from '@/components/Servicios';
 
 const WHATSAPP_NUMBER = "56973784443";
 
@@ -43,36 +45,10 @@ export default function Home() {
 
   return (
     <main className="min-h-screen bg-[#F8F9FA] text-slate-900 font-sans relative">
-      {/* 1. BARRA SUPERIOR */}
-      <div className="bg-slate-950 text-white text-xs font-semibold py-2.5 text-center tracking-wide px-4">
-        SOPORTE TÉCNICO ESPECIALIZADO — MANTENIMIENTO, FORMATEO Y DIAGNÓSTICO EN QUILPUÉ
-      </div>
+      {/* 1. HEADER MODULAR */}
+      <Header />
 
-      {/* 2. HEADER */}
-      <header className="sticky top-0 z-40 bg-white/90 backdrop-blur-md border-b border-slate-200 px-4 sm:px-6 py-4">
-        <div className="mx-auto max-w-6xl flex items-center justify-between">
-          <div className="flex items-center gap-2 font-black text-xl sm:text-2xl tracking-tighter text-slate-900">
-            <span className="bg-blue-600 text-white px-2 py-0.5 rounded-lg text-base sm:text-lg">PC</span>
-            SOPORTE.CL
-          </div>
-          <nav className="hidden md:flex items-center gap-6 text-sm font-semibold text-slate-700">
-            <a href="#planes" className="hover:text-blue-600 transition">Planes</a>
-            <a href="#servicios" className="hover:text-blue-600 transition">Servicios</a>
-            <a href="#contacto" className="hover:text-blue-600 transition">Contacto</a>
-            <a href="#faq" className="hover:text-blue-600 transition">Preguntas Frecuentes</a>
-          </nav>
-          <a
-            href={whatsappUrl("Hola, me gustaría realizar una consulta por mi equipo.")}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="rounded-full bg-green-500 px-4 sm:px-5 py-2 text-xs sm:text-sm font-bold text-white shadow-sm transition hover:bg-green-600"
-          >
-            Contacto WhatsApp
-          </a>
-        </div>
-      </header>
-
-      {/* 3. HERO BANNER */}
+      {/* 2. HERO BANNER */}
       <section className="bg-slate-900 text-white px-4 sm:px-6 py-16 sm:py-20 text-center relative overflow-hidden">
         <div className="mx-auto max-w-5xl relative z-10">
           <div className="inline-flex items-center gap-2 bg-slate-800 border border-slate-700 rounded-full px-4 py-1.5 text-xs font-semibold text-yellow-400 mb-6">
@@ -103,7 +79,7 @@ export default function Home() {
         </div>
       </section>
 
-      {/* 4. PLANES INTEGRALES */}
+      {/* 3. PLANES INTEGRALES */}
       <section id="planes" className="mx-auto max-w-6xl px-4 sm:px-6 py-16">
         <div className="text-center">
           <span className="bg-blue-100 text-blue-700 text-xs font-bold uppercase tracking-wider px-3 py-1 rounded-full">
@@ -178,6 +154,9 @@ export default function Home() {
           </div>
         </div>
       </section>
+
+      {/* 4. SECCIÓN DE SERVICIOS INDIVIDUALES MODULAR */}
+      <Servicios />
 
       {/* 5. FORMULARIO FRONTEND PURO (DIRECTO A WHATSAPP) */}
       <section id="contacto" className="bg-white border-y border-slate-200 px-4 sm:px-6 py-16">
