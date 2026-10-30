@@ -3,8 +3,7 @@
 import React, { useState } from 'react';
 import Header from '@/components/Header';
 import Servicios from '@/components/Servicios';
-
-const WHATSAPP_NUMBER = "56973784443";
+import { whatsappUrl } from '@/lib/whatsapp';
 
 export default function Home() {
   const [formData, setFormData] = useState({
@@ -18,11 +17,8 @@ export default function Home() {
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const texto = `Hola, mi nombre es ${formData.nombre} (${formData.email}). Mi consulta es: ${formData.mensaje}`;
-    window.open(`https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(texto)}`, '_blank');
+    window.open(whatsappUrl(texto), '_blank');
   };
-
-  const whatsappUrl = (mensaje: string) =>
-    `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(mensaje)}`;
 
   const faqs = [
     {
@@ -90,7 +86,8 @@ export default function Home() {
         </div>
 
         <div className="mt-10 grid gap-8 md:grid-cols-3">
-          <div className="bg-white rounded-3xl p-6 border border-slate-200 shadow-sm flex flex-col justify-between">
+          {/* Plan 1 */}
+          <div className="bg-white rounded-3xl p-6 border border-slate-200 shadow-sm flex flex-col justify-between hover:border-slate-400 transition">
             <div>
               <h3 className="text-xl font-bold text-slate-900">Plan Windows Listo</h3>
               <p className="text-3xl font-black text-blue-600 mt-2">$20.000</p>
@@ -110,6 +107,7 @@ export default function Home() {
             </a>
           </div>
 
+          {/* Plan 2 - Destacado */}
           <div className="bg-white rounded-3xl p-6 border-2 border-blue-600 shadow-lg flex flex-col justify-between relative scale-105">
             <span className="absolute -top-3 left-1/2 -translate-x-1/2 bg-blue-600 text-white text-[10px] font-black uppercase tracking-widest px-3 py-1 rounded-full">
               Más Solicitado
@@ -133,7 +131,8 @@ export default function Home() {
             </a>
           </div>
 
-          <div className="bg-white rounded-3xl p-6 border border-slate-200 shadow-sm flex flex-col justify-between">
+          {/* Plan 3 */}
+          <div className="bg-white rounded-3xl p-6 border border-slate-200 shadow-sm flex flex-col justify-between hover:border-slate-400 transition">
             <div>
               <h3 className="text-xl font-bold text-slate-900">Plan Mantención Total 360°</h3>
               <p className="text-3xl font-black text-blue-600 mt-2">$40.000</p>
@@ -155,7 +154,7 @@ export default function Home() {
         </div>
       </section>
 
-      {/* 4. SECCIÓN DE SERVICIOS INDIVIDUALES MODULAR */}
+      {/* 4. SECCIÓN DE SERVICIOS INDIVIDUALES */}
       <Servicios />
 
       {/* 5. FORMULARIO FRONTEND PURO (DIRECTO A WHATSAPP) */}
@@ -210,7 +209,7 @@ export default function Home() {
 
             <button
               type="submit"
-              className="w-full bg-green-600 hover:bg-green-700 text-white font-bold py-3.5 rounded-xl transition shadow-md text-xs sm:text-sm flex items-center justify-center gap-2"
+              className="w-full bg-green-600 hover:bg-green-700 text-white font-bold py-3.5 rounded-xl transition shadow-md text-xs sm:text-sm flex items-center justify-center gap-2 cursor-pointer"
             >
               <span>💬</span> Enviar Consulta por WhatsApp
             </button>
@@ -227,7 +226,7 @@ export default function Home() {
               <button
                 type="button"
                 onClick={() => setFaqAbierta(faqAbierta === idx ? null : idx)}
-                className="w-full text-left p-4 sm:p-5 font-bold text-slate-900 flex justify-between items-center text-xs sm:text-sm"
+                className="w-full text-left p-4 sm:p-5 font-bold text-slate-900 flex justify-between items-center text-xs sm:text-sm cursor-pointer hover:bg-slate-50 transition"
               >
                 <span>{faq.q}</span>
                 <span className="text-blue-600 font-black text-base ml-2">{faqAbierta === idx ? '−' : '+'}</span>
