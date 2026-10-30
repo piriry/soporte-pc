@@ -3,22 +3,10 @@
 import React, { useState } from 'react';
 import Header from '@/components/Header';
 import Servicios from '@/components/Servicios';
-import { whatsappUrl } from '@/lib/whatsapp';
+import { WHATSAPP_NUMBER, whatsappUrl } from '@/lib/whatsapp';
 
 export default function Home() {
-  const [formData, setFormData] = useState({
-    nombre: '',
-    email: '',
-    mensaje: '',
-  });
-
   const [faqAbierta, setFaqAbierta] = useState<number | null>(null);
-
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    const texto = `Hola, mi nombre es ${formData.nombre} (${formData.email}). Mi consulta es: ${formData.mensaje}`;
-    window.open(whatsappUrl(texto), '_blank');
-  };
 
   const faqs = [
     {
@@ -157,7 +145,7 @@ export default function Home() {
       {/* 4. SECCIÓN DE SERVICIOS INDIVIDUALES */}
       <Servicios />
 
-      {/* 5. FORMULARIO FRONTEND PURO (DIRECTO A WHATSAPP) */}
+      {/* 5. FORMULARIO NATIVO DIRECTO A WHATSAPP */}
       <section id="contacto" className="bg-white border-y border-slate-200 px-4 sm:px-6 py-16">
         <div className="mx-auto max-w-xl bg-[#F8F9FA] p-6 sm:p-10 rounded-3xl border border-slate-200">
           <div className="text-center">
@@ -170,15 +158,19 @@ export default function Home() {
             </p>
           </div>
 
-          <form onSubmit={handleSubmit} className="mt-6 space-y-4">
+          <form 
+            action={`https://wa.me/${WHATSAPP_NUMBER}`} 
+            method="GET" 
+            target="_blank"
+            className="mt-6 space-y-4"
+          >
             <div>
               <label className="block text-xs font-bold text-slate-700 mb-1">Nombre Completo</label>
               <input
                 type="text"
+                name="nombre_usuario"
                 required
                 placeholder="Ej. Carlos Tapia"
-                value={formData.nombre}
-                onChange={(e) => setFormData({ ...formData, nombre: e.target.value })}
                 className="w-full rounded-xl border border-slate-300 p-3 text-xs sm:text-sm focus:outline-none focus:ring-2 focus:ring-blue-600 bg-white"
               />
             </div>
@@ -187,10 +179,9 @@ export default function Home() {
               <label className="block text-xs font-bold text-slate-700 mb-1">Correo Electrónico</label>
               <input
                 type="email"
+                name="email_usuario"
                 required
                 placeholder="ejemplo@correo.com"
-                value={formData.email}
-                onChange={(e) => setFormData({ ...formData, email: e.target.value })}
                 className="w-full rounded-xl border border-slate-300 p-3 text-xs sm:text-sm focus:outline-none focus:ring-2 focus:ring-blue-600 bg-white"
               />
             </div>
@@ -199,10 +190,9 @@ export default function Home() {
               <label className="block text-xs font-bold text-slate-700 mb-1">Mensaje o Consulta</label>
               <textarea
                 rows={3}
+                name="text"
                 required
-                placeholder="¿Qué problema presenta tu equipo?"
-                value={formData.mensaje}
-                onChange={(e) => setFormData({ ...formData, mensaje: e.target.value })}
+                placeholder="Hola, mi nombre es [Nombre]. Mi consulta es: ..."
                 className="w-full rounded-xl border border-slate-300 p-3 text-xs sm:text-sm focus:outline-none focus:ring-2 focus:ring-blue-600 bg-white"
               ></textarea>
             </div>
@@ -217,12 +207,12 @@ export default function Home() {
         </div>
       </section>
 
-      {/* 6. PREGUNTAS FRECUENTES */}
+      {/* 6. PREGUNTAS FRECUENTES (FAQ ACORDEÓN) */}
       <section id="faq" className="mx-auto max-w-3xl px-4 sm:px-6 py-12">
         <h2 className="text-center text-2xl sm:text-3xl font-black text-slate-900">Preguntas Frecuentes</h2>
         <div className="mt-6 space-y-3">
           {faqs.map((faq, idx) => (
-            <div key={idx} className="bg-white rounded-2xl border border-slate-200 overflow-hidden">
+            <div key={idx} className="bg-white rounded-2xl border border-slate-200 overflow-hidden shadow-sm">
               <button
                 type="button"
                 onClick={() => setFaqAbierta(faqAbierta === idx ? null : idx)}
@@ -232,7 +222,7 @@ export default function Home() {
                 <span className="text-blue-600 font-black text-base ml-2">{faqAbierta === idx ? '−' : '+'}</span>
               </button>
               {faqAbierta === idx && (
-                <div className="px-4 sm:px-5 pb-4 text-xs sm:text-sm text-slate-600 leading-relaxed border-t border-slate-100 pt-3">
+                <div className="px-4 sm:px-5 pb-5 text-xs sm:text-sm text-slate-600 leading-relaxed border-t border-slate-100 pt-3 bg-slate-50/50">
                   {faq.a}
                 </div>
               )}
